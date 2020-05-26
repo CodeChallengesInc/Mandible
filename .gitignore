@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/SubmissionApi/SubmissionApi/obj
+/SubmissionApi/SubmissionApi/Properties
+/SubmissionApi/SubmissionApi/bin/Debug/netcoreapp2.1
+/SubmissionApi/.vs/SubmissionApi/v16
