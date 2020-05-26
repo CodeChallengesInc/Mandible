@@ -26,14 +26,26 @@ Get the rules for the code challenge. No parameters. Should always return 200 OK
 
 Get the most recent submission for the given username. Returns 404 if no username is found.
 
+##### GET Player Parameters
+
+Username (string, Required)
+
 #### POST SubmissionApi/LoneAnt/Player?{Username}
 
 Submit a new function for the provided username. Submissions will be manually evaluated prior to being added to a Game to ensure no malicious behavior is present. Returns a 200 OK on success, which should almost always be the case. Will fail if the Username contains [illegal characters for a Linux filesystem](https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words).
 
 Subsequent POST actions will overwrite the previous submission, but a backup of the previous submission will be made.
 
+##### POST Player Parameters
+
+Username (string, Required)
+
 #### DELETE SubmissionApi/LoneAnt/Player?{Username}
 
 Remove the submission for the provided username. Returns a 200 OK if a file is found and removed. Otherwise will return a 404.
 
 All DELETE actions are a soft delete, and deleted submissions will be able to be manually recovered by your friendly game administrators.
+
+##### DELETE Player Parameters
+
+Username (string, Required)
