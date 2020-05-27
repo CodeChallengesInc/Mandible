@@ -29,6 +29,13 @@ namespace CodeChallengeInc.SubmissionApi
 			{
 				options.SuppressModelStateInvalidFilter = true;
 			});
+			services.AddCors(Options =>
+			{
+				Options.AddPolicy("AllowAnyOrigin", builder =>
+				{
+					builder.AllowAnyOrigin();
+				});
+			});
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 
