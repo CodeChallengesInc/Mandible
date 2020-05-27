@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '85:80'
     volumes:
       - submissions:/app/LoneAnt/Submissions
       - backups:/app/LoneAnt/Backups
