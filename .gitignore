@@ -9,3 +9,6 @@
 /SubmissionApi/bin/Debug/netcoreapp2.1
 /SubmissionApi/obj
 /SubmissionApi/Properties
+/SubmissionApi/bin/Release
+/SubmissionApi/.vs/SubmissionApi/config
+/SubmissionApi/LoneAnt

@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  submissionapi:
+    image: ${DOCKER_REGISTRY-}submissionapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - submissions:/app/LoneAnt/Submissions
+      - backups:/app/LoneAnt/Backups
+
+volumes:
+  submissions:
+  backups: 
