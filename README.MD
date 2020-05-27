@@ -51,17 +51,7 @@ The ant function will receive an array called `view`, which contains an object f
 ````
 color: a number from 1-8
 food: 1 if present, 0 if not.
-ant: null if there is no ant on the cell, otherwise an ant object.
 ````
-
-Ant objects have the following information
-
-```
-Food: 0 or more.
-```
-
-The ant can determine its own details by looking at the ant in the central cell, `view[4].ant`.
-
 #### Output
 
 Output is returned as an object representing the action to take. This object should have the following information:
