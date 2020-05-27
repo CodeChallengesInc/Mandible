@@ -12,3 +12,6 @@
 /SubmissionApi/bin/Release
 /SubmissionApi/.vs/SubmissionApi/config
 /SubmissionApi/LoneAnt
+/bin
+/LoneAnt
+/obj
