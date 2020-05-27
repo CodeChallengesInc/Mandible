@@ -3,7 +3,6 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.1-stretch-slim AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.1-stretch AS build
 WORKDIR /src
@@ -18,5 +17,9 @@ RUN dotnet publish "SubmissionApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:80
+RUN mkdir LoneAnt
+RUN mkdir LoneAnt/Submissions
+RUN mkdir LoneAnt/Backups
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "CodeChallengeInc.SubmissionApi.dll"]

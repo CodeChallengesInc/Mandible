@@ -2,22 +2,20 @@ version: '3.4'
 
 services:
   submissionapi:
-    image: ${DOCKER_REGISTRY-}submissionapi
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: otherwisejunk/cci-submissionapi
+    ports:
+      - '85:80'
     volumes:
       - submissions:/app/LoneAnt/Submissions
       - backups:/app/LoneAnt/Backups
-  database:
-    image: mcr.microsoft.com/mssql/server
-    environment:
-      SA_PASSWORD: "DoYouWantAnts,Lana?!"
-      ACCEPT_EULA: "Y"
+  submissionapi2:
+    image: otherwisejunk/cci-submissionapi
+    ports:
+      - '84:80'
     volumes:
-      - userdata:/var/opt/sqlserver
+      - submissions:/app/LoneAnt/Submissions
+      - backups:/app/LoneAnt/Backups
 
 volumes:
   submissions:
   backups:
-  userdata:
