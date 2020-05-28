@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using CodeChallengeInc.SubmissionApi.Interfaces;
+using CodeChallengeInc.SubmissionApi.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,7 @@ namespace CodeChallengeInc.SubmissionApi
 					builder.AllowAnyOrigin();
 				});
 			});
+			services.AddScoped<IFileService, FileService>();
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 		}
 

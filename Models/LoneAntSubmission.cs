@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace CodeChallengeInc.SubmissionApi.Models
 {
-	public class LoneAntSubmission : IPlayerSubmission
+	public class LoneAntSubmission
 	{
 		public string Username { get; set; }
 		public string Submission { get; set; }
-
-		public LoneAntSubmission(string username, string submission)
-		{
-			Username = username;
-			Submission = submission;
-		}
 	}
 }

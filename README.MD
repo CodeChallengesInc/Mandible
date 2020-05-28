@@ -83,11 +83,11 @@ Each user is allowed one submission. At this stage we don't have account creatio
 
 ### Endpoints
 
-#### GET SubmissionApi/LoneAnt
+#### GET SubmissionApi/lone-ant
 
 Get the rules for the code challenge. No parameters. Should always return 200 OK with the rules of the game.
 
-#### GET SubmissionApi/LoneAnt/Player?{Username}
+#### GET submissionapi/lone-ant/player?{username}
 
 Get the most recent submission for the given username. Returns 404 if no username is found.
 
@@ -95,17 +95,17 @@ Get the most recent submission for the given username. Returns 404 if no usernam
 
 Username (string, Required)
 
-#### POST SubmissionApi/LoneAnt/Player?{Username}
+#### PUT submissionapi/lone-ant/player?{username}
 
 Submit a new function for the provided username. Submissions will be manually evaluated prior to being added to a Game to ensure no malicious behavior is present. Returns a 200 OK on success, which should almost always be the case. Will fail if the Username contains [illegal characters for a Linux filesystem](https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words).
 
-Subsequent POST actions will overwrite the previous submission, but a backup of the previous submission will be made.
+Subsequent PUT actions will overwrite the previous submission, but a backup of the previous submission will be made.
 
-##### POST Player Parameters
+##### PUT Player Parameters
 
 Username (string, Required)
 
-#### DELETE SubmissionApi/LoneAnt/Player?{Username}
+#### DELETE submissionapi/lone-ant/player?{username}
 
 Remove the submission for the provided username. Returns a 200 OK if a file is found and removed. Otherwise will return a 404.
 

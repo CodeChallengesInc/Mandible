@@ -9,11 +9,5 @@ namespace CodeChallengeInc.SubmissionApi.Models
 	{
 		public int ErrorCode { get; set; }
 		public string ErrorMessage { get; set; }
-
-		public ErrorResponse(int code, string message)
-		{
-			ErrorCode = code;
-			ErrorMessage = message;
-		}
 	}
 }

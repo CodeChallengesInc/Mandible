@@ -12,10 +12,17 @@ using System.Text;
 
 namespace CodeChallengeInc.SubmissionApi.Controllers
 {
-	[Route("LoneAnt")]
+	[Route("lone-ant")]
 	[ApiController]
 	public class LoneAntController : ControllerBase//, IGameController
 	{
+		internal string Passcode { get; set; }
+		IFileService _fileService;
+		public LoneAntController(IFileService fileService)
+		{
+			_fileService = fileService;
+			Passcode = (Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) != null) ? Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) : EnvironmentConstants.DefaultPasscode;
+		}
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		public ActionResult<string> GetGameRules()
@@ -28,70 +35,37 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public ActionResult<string> GetUserSubmission(string username)
 		{
-			string submissionLocation = Path.Combine(GetSubmissionsPath(), username + FileInformation.LoneAntFileExtension);
-			if (System.IO.File.Exists(submissionLocation))
+			if (_fileService.UserSubmissionExists(username))
 			{
-				return JsonConvert.SerializeObject(new LoneAntSubmission(username, System.IO.File.ReadAllText(submissionLocation)));
+				return _fileService.GetUserSubmissionJson(username);
 			}
-			return NotFound(ErrorResponses.SubmissionNotFound(username));
+			return NotFound(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) }));
 		}
 
 		[HttpPut("{username}")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public ActionResult SubmitUserEntry(string username, [FromBody] string submission)
 		{
-			string submissionLocation = Path.Combine(GetSubmissionsPath(), username + FileInformation.LoneAntFileExtension);
-			if (System.IO.File.Exists(submissionLocation))
+			if (submission != string.Empty)
 			{
-				BackupFile(submissionLocation);
-			}
-			if(submission != string.Empty)
-			{
-				CreateOrOverwriteSubmission(submissionLocation, submission);
+				_fileService.CreateOrOverwriteUserSubmission(username, submission);
 				return NoContent();
 			}
-			return BadRequest(ErrorResponses.SubmissionPutBodyEmpty);
+			return BadRequest(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 400, ErrorMessage = ErrorResponses.SubmissionPutBodyEmpty }));
 		}
 
 		[HttpDelete("{username}")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		public ActionResult DeleteSubmission(string username)
 		{
-			string submissionLocation = Path.Combine(GetSubmissionsPath(), username + FileInformation.LoneAntFileExtension);
-			if (System.IO.File.Exists(submissionLocation))
+			if (_fileService.UserSubmissionExists(username))
 			{
-				BackupFile(submissionLocation);
-				System.IO.File.Delete(submissionLocation);
+				_fileService.DeleteUserSubmission(username);
 				return NoContent();
 			}
-			return NotFound(ErrorResponses.SubmissionNotFound(username));
-		}
-
-		public string GetSubmissionsPath()
-		{
-			return Path.Combine(FileInformation.LoneAntFolder, FileInformation.SubmissionFolder);
-		}
-
-		public string GetBackupsPath()
-		{
-			return Path.Combine(FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder);
-		}
-		public void BackupFile(string path)
-		{
-			string content = System.IO.File.ReadAllText(path);
-			FileInfo fi = new FileInfo(path);
-
-			string filename = $"{fi.Name.Replace(FileInformation.LoneAntFileExtension, string.Empty)} - {fi.LastWriteTime.ToString(FileInformation.DateTimeFormat)}{fi.Extension}";
-			string backupLocation = Path.Combine(GetBackupsPath(), filename);
-
-			System.IO.File.WriteAllText(backupLocation, content);
-		}
-		public void CreateOrOverwriteSubmission(string path, string submissionText)
-		{
-			using(FileStream fs = System.IO.File.Create(path))
-			{
-				byte[] content = new UTF8Encoding(true).GetBytes(submissionText);
-
-				fs.Write(content, 0, content.Length);
-			}
+			return NotFound(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) }));
 		}
 	}
 }
