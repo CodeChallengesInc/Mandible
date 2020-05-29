@@ -10,13 +10,13 @@ Lone ant is a challenge where the player controls a single ant. Ants search the 
 
 #### Ant Abilities
 
-Each submission represents a single ant that will attempt to gather food on the 250x100 grid (gridsize may vary as it's configurable on the backend, but the defualt is 250x100). Ants have the following abilities:
+Each submission represents a single ant that will attempt to gather food on the 2500x1000 grid. Ants have the following abilities:
 
-* Sight: Each ant can see their current cell, and each cell 1 space adjacent or diagnol to it. This gives the ant a total vision of 9 cells in a 3x3 grid.
-* No Memory: An ant makes their decision each turn based on the cell of the grid they can currently see. Ants have notoriously short memories, and can't remember the action they took on previous turns. 
+* Sight: Each ant can see their current square, and each square 1 space adjacent or diagnol to it. This gives the ant a total vision of 9 squares in a 3x3 grid.
+* No Memory: An ant makes their decision each turn based on the section of the grid they can currently see. Ants have notoriously short memories, and can't remember the action they took on previous turns. 
 * No Orientation: Due to their poor memories, ants also have no sense of orientation. The 3x3 grid that the ant is able to see will be rotated randomly, so they will need to rely on their other abilities to orient themselves each turn.
-* Moving: Ants can move to any cell they are able to see.
-* Coloring Cells: Ants can also color any cell they are able to move to, allowing them to create paths for the purposes of orientation.
+* Moving: Ants can move to any square they are able to see.
+* Coloring Squares: Ants can also color any square they are able to move to, allowing them to create paths for the purposes of orientation.
 * Immortality: Due to Newton's fourth law of motion, the Conservation of Ants, ants can neither be created nor destroyed. no PvP action!
 
 #### Coding Rules
