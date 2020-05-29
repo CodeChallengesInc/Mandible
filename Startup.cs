@@ -22,7 +22,7 @@ namespace CodeChallengeInc.SubmissionApi
 		{
 			services.AddCors(Options =>
 			{
-				Options.AddPolicy("AllowAnyOrigin", builder =>
+				Options.AddPolicy("AllowAny", builder =>
 				{
 					builder.AllowAnyOrigin();
 					builder.AllowAnyHeader();
@@ -44,6 +44,7 @@ namespace CodeChallengeInc.SubmissionApi
 			{
 				app.UseHsts();
 			}
+			app.UseCors("AllowAny");
 			app.UseMvc();
 		}
 	}
