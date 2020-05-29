@@ -1,0 +1,29 @@
+version: '3.4'
+
+services:
+  submissionapi:
+    image: otherwisejunk/cci-submissionapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - submissions:/app/LoneAnt/Submissions
+      - backups:/app/LoneAnt/Backups
+    environment:
+      - PASSCODE=Adm1nsOnlyYou92385FRICKENNerd!
+    ports:
+      - 82:80
+  gaster:
+    image: otherwisejunk/cci-backend
+    volumes:
+      - submissions:/usr/src/app/ants
+    ports:
+      - 81:3000
+  antenna:
+    image: otherwisejunk/cci-frontend
+    ports:
+      - 80:80
+
+volumes:
+  submissions:
+  backups:
