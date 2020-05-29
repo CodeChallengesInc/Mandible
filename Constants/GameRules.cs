@@ -1,14 +1,17 @@
-# Code Challenge Submission API
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-This API is for submitting code challenge functions. Eventually we will be able to support submissions for multiple challenges, but initially we have the `Lone Ant` challenge!
-
-## Lone Ant
-
-### Rules
+namespace CodeChallengeInc.SubmissionApi.Constants
+{
+	public class GameRules
+	{
+		public static string LoneAnt = @"# Rules
 
 Lone ant is a challenge where the player controls a single ant. Ants search the provided grid for food.
 
-#### Ant Abilities
+## Ant Abilities
 
 Each submission represents a single ant that will attempt to gather food on the 250x100 grid (gridsize may vary as it's configurable on the backend, but the defualt is 250x100). Ants have the following abilities:
 
@@ -19,13 +22,13 @@ Each submission represents a single ant that will attempt to gather food on the 
 * Coloring Cells: Ants can also color any cell they are able to move to, allowing them to create paths for the purposes of orientation.
 * Immortality: Due to Newton's fourth law of motion, the Conservation of Ants, ants can neither be created nor destroyed. no PvP action!
 
-#### Coding Rules
+## Coding Rules
 
-##### Provide a function body
+### Provide a function body
 
 Each ant is controlled by a user-submitted Javascript function. Each turn, for each ant, the player's ant function is called. The function has an input of the 3x3 grid your ant is able to see, and should return a move for your ant's turn.
 
-##### No state, No time, No random
+### No state, No time, No random
 
 A submitted function must not attempt to use global variables, or any other means of storing state between turns. It may use built-in functions that don't involve storing state, so using Math.abs() would be fine but Date.getTime() is forbidden.
 
@@ -35,7 +38,7 @@ Instead, players may use the information they receive each turn to psuedorandoml
 
 An ant function is permitted to contain additional helper-functions within its body.
 
-#### Input
+## Input
 
 The orientation of the input will be chosen at random for each ant and for each turn. The input will be rotated by 0, 90, 180 or 270 degrees, but will never be reflected.
 
@@ -52,7 +55,7 @@ The ant function will receive an array called `view`, which contains an object f
 color: a number from 1-8
 food: 1 if present, 0 if not.
 ````
-#### Output
+## Output
 
 Output is returned as an object representing the action to take. This object should have the following information:
 ```
@@ -77,40 +80,8 @@ Invalid Outputs:
 {cell: 9}: cell must be between 0-8.
 {cell0, color:9}: color must be from 1-8.
 ```
-#### Closing Notes.
+## Closing Notes.
 
-Each user is allowed one submission. At this stage we don't have account creation/validation, so this is enforced based on a provided username variable at this stage. In the future this will be derived from a JWT token.
-
-### Endpoints
-
-#### GET SubmissionApi/lone-ant
-
-Get the rules for the code challenge. No parameters. Should always return 200 OK with the rules of the game.
-
-#### GET submissionapi/lone-ant/player?{username}
-
-Get the most recent submission for the given username. Returns 404 if no username is found.
-
-##### GET Player Parameters
-
-Username (string, Required)
-
-#### PUT submissionapi/lone-ant/player?{username}
-
-Submit a new function for the provided username. Submissions will be manually evaluated prior to being added to a Game to ensure no malicious behavior is present. Returns a 200 OK on success, which should almost always be the case. Will fail if the Username contains [illegal characters for a Linux filesystem](https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words).
-
-Subsequent PUT actions will overwrite the previous submission, but a backup of the previous submission will be made.
-
-##### PUT Player Parameters
-
-Username (string, Required)
-
-#### DELETE submissionapi/lone-ant/player?{username}
-
-Remove the submission for the provided username. Returns a 200 OK if a file is found and removed. Otherwise will return a 404.
-
-All DELETE actions are a soft delete, and deleted submissions will be able to be manually recovered by your friendly game administrators.
-
-##### DELETE Player Parameters
-
-Username (string, Required)
+Each user is allowed one submission. At this stage we don't have account creation/validation, so this is enforced based on a provided username variable at this stage. In the future this will be derived from a JWT token.";
+	}
+}
