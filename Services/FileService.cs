@@ -50,9 +50,9 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			return File.Exists(GetUserSubmissionPath(username));
 		}
 
-		public string GetUserSubmissionJson(string username)
+		public LoneAntSubmission GetUserSubmission(string username)
 		{
-			return JsonConvert.SerializeObject(new LoneAntSubmission { Username = username, Submission = File.ReadAllText(GetUserSubmissionPath(username))}) ;
+			return new LoneAntSubmission { Username = username, Submission = File.ReadAllText(GetUserSubmissionPath(username)) };
 		}
 		internal string GetSubmissionsPath()
 		{
@@ -67,6 +67,29 @@ namespace CodeChallengeInc.SubmissionApi.Services
 		internal string GetUserSubmissionPath(string username)
 		{
 			return Path.Combine(GetSubmissionsPath(), username + FileInformation.LoneAntFileExtension);
+		}
+
+		public List<LoneAntSubmission> GetSubmissionsJson()
+		{
+			List<LoneAntSubmission> submissions = new List<LoneAntSubmission>();
+			foreach(string submissionName in GetSubmissionNames())
+			{
+				submissions.Add(GetUserSubmission(submissionName));
+			}
+
+			return submissions;
+		}
+
+		public List<string> GetSubmissionNames()
+		{
+			List<string> submissionNames = new List<string>();
+			foreach (string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
+			{
+				string submissionName= submissionPath.Replace($"{GetSubmissionsPath()}\\", string.Empty);
+				submissionNames.Add(submissionName.Replace(FileInformation.LoneAntFileExtension, string.Empty));
+			}
+
+			return submissionNames;
 		}
 	}
 }

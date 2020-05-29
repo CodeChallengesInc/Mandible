@@ -33,18 +33,20 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		[HttpGet("{username}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Produces("application/json")]
 		public ActionResult<string> GetUserSubmission(string username)
 		{
 			if (_fileService.UserSubmissionExists(username))
 			{
-				return _fileService.GetUserSubmissionJson(username);
+				return Ok(_fileService.GetUserSubmission(username));
 			}
-			return NotFound(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) }));
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) });
 		}
 
 		[HttpPut("{username}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[Produces("application/json")]
 		public ActionResult SubmitUserEntry(string username, [FromBody] string submission)
 		{
 			if (submission != string.Empty)
@@ -52,12 +54,13 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 				_fileService.CreateOrOverwriteUserSubmission(username, submission);
 				return NoContent();
 			}
-			return BadRequest(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 400, ErrorMessage = ErrorResponses.SubmissionPutBodyEmpty }));
+			return BadRequest(new ErrorResponse { ErrorCode = 400, ErrorMessage = ErrorResponses.SubmissionPutBodyEmpty });
 		}
 
 		[HttpDelete("{username}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Produces("application/json")]
 		public ActionResult DeleteSubmission(string username)
 		{
 			if (_fileService.UserSubmissionExists(username))
@@ -65,7 +68,35 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 				_fileService.DeleteUserSubmission(username);
 				return NoContent();
 			}
-			return NotFound(JsonConvert.SerializeObject(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) }));
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) });
+		}
+
+		[HttpGet("submissions")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Produces("application/json")]
+		public ActionResult<string> GetUserSubmissions()
+		{
+			List<LoneAntSubmission> userSubmissions = _fileService.GetSubmissionsJson();
+			if(userSubmissions.Count == 0)
+			{
+				return NoContent();
+			}
+			return Ok(userSubmissions);
+		}
+
+		[HttpGet("submission-names")]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[Produces("application/json")]
+		public ActionResult<string> GetUserSubmissionNames()
+		{
+			List<string> userSubmissionNames = _fileService.GetSubmissionNames();
+			if (userSubmissionNames.Count == 0)
+			{
+				return NoContent();
+			}
+			return Ok(userSubmissionNames);
 		}
 	}
 }
