@@ -25,6 +25,8 @@ namespace CodeChallengeInc.SubmissionApi
 				Options.AddPolicy("AllowAnyOrigin", builder =>
 				{
 					builder.AllowAnyOrigin();
+					builder.AllowAnyHeader();
+					builder.AllowAnyMethod();
 				});
 			});
 			services.AddScoped<IFileService, FileService>();
