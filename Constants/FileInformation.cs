@@ -14,5 +14,6 @@ namespace CodeChallengeInc.SubmissionApi.Constants
 		// LoneAnt specific properties
 		public static string LoneAntFolder = "LoneAnt";		
 		public static string LoneAntFileExtension = ".js";
+		public static string DockerFilePathPrefix = "LoneAnt/Submissions/";
 	}
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -83,9 +84,16 @@ namespace CodeChallengeInc.SubmissionApi.Services
 		public List<string> GetSubmissionNames()
 		{
 			List<string> submissionNames = new List<string>();
+			
 			foreach (string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
 			{
-				string submissionName= submissionPath.Replace($"{GetSubmissionsPath()}\\", string.Empty);
+				string submissionName;
+				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)){
+					submissionName = submissionPath.Replace($"{GetSubmissionsPath()}\\", string.Empty);
+				}
+				else {
+					submissionName = submissionPath.Replace(FileInformation.DockerFilePathPrefix, string.Empty);
+				}
 				submissionNames.Add(submissionName.Replace(FileInformation.LoneAntFileExtension, string.Empty));
 			}
 
