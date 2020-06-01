@@ -78,7 +78,7 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		[Produces("application/json")]
 		public ActionResult<string> GetUserSubmissions()
 		{
-			List<LoneAntSubmission> userSubmissions = _fileService.GetSubmissionsJson();
+			List<LoneAntSubmissionResponse> userSubmissions = _fileService.GetSubmissionsJson();
 			if(userSubmissions.Count == 0)
 			{
 				return NoContent();
