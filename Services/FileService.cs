@@ -28,6 +28,7 @@ namespace CodeChallengeInc.SubmissionApi.Services
 
 		public void CreateOrOverwriteUserSubmission(string antName, string userName, string submission)
 		{
+			userName = userName.Replace("_", string.Empty);
 			string fileName = $"{userName}_{antName}"; 
 			if (UserSubmissionExists(fileName))
 			{
@@ -42,7 +43,7 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			}
 		}
 
-		public void DeleteUserSubmission(string userName, string antName)
+		public void DeleteUserSubmission(string antName, string userName)
 		{
 			string fileName = $"{userName}_{antName}";
 			BackupUserSubmission(GetUserSubmissionPath(fileName));
