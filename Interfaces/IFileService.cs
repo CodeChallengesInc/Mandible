@@ -15,6 +15,7 @@ namespace CodeChallengeInc.SubmissionApi.Interfaces
 		void BackupUserSubmission(string path);
 		List<LoneAntSubmissionResponse> GetSubmissionsJson();
 		List<string> GetSubmissionNames();
+		void PurgeDefaultAnts();
 
 	}
 }
