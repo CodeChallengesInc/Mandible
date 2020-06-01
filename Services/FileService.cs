@@ -75,9 +75,9 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			return Path.Combine(GetSubmissionsPath(), fileName + FileInformation.LoneAntFileExtension);
 		}
 
-		public List<LoneAntSubmission> GetSubmissionsJson()
+		public List<LoneAntSubmissionResponse> GetSubmissionsJson()
 		{
-			List<LoneAntSubmission> submissions = new List<LoneAntSubmission>();
+			List<LoneAntSubmissionResponse> submissions = new List<LoneAntSubmissionResponse>();
 			foreach(string submissionName in GetSubmissionNames())
 			{
 				List<string> fileNameParts = submissionName.Split('_').ToList();
