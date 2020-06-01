@@ -8,10 +8,10 @@ namespace CodeChallengeInc.SubmissionApi.Interfaces
 {
 	public interface IFileService
 	{
-		bool UserSubmissionExists(string username);
-		LoneAntSubmission GetUserSubmission(string username);
-		void CreateOrOverwriteUserSubmission(string username, string submission);
-		void DeleteUserSubmission(string username);
+		bool UserSubmissionExists(string antName);
+		LoneAntSubmissionResponse GetUserSubmission(string antName, string userName);
+		void CreateOrOverwriteUserSubmission(string antName, string userName, string submission);
+		void DeleteUserSubmission(string antName, string userName);
 		void BackupUserSubmission(string path);
 		List<LoneAntSubmission> GetSubmissionsJson();
 		List<string> GetSubmissionNames();

@@ -80,8 +80,6 @@ Invalid Outputs:
 {cell: 9}: cell must be between 0-8.
 {cell0, color:9}: color must be from 1-8.
 ```
-## Closing Notes.
-
-Each user is allowed one submission. At this stage we don't have account creation/validation, so this is enforced based on a provided username variable at this stage. In the future this will be derived from a JWT token.";
+";
 	}
 }

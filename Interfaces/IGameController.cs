@@ -9,8 +9,8 @@ namespace CodeChallengeInc.SubmissionApi.Interfaces
 	interface IGameController
 	{
 		ActionResult<string> GetGameRules();
-		ActionResult<string> GetUserSubmission(string username);
-		ActionResult SubmitUserEntry(string username);
-		ActionResult DeleteSubmission(string username);
+		ActionResult<string> GetUserSubmission(string userName, string antName);
+		ActionResult SubmitUserEntry(string userName, string antName, string submission);
+		ActionResult DeleteSubmission(string userName, string antName);
 	}
 }

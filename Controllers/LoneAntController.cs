@@ -14,7 +14,7 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 {
 	[Route("lone-ant")]
 	[ApiController]
-	public class LoneAntController : ControllerBase//, IGameController
+	public class LoneAntController : ControllerBase, IGameController
 	{
 		internal string Passcode { get; set; }
 		IFileService _fileService;
@@ -30,45 +30,46 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 			return GameRules.LoneAnt;
 		}
 
-		[HttpGet("{username}")]
+		[HttpGet("{userName}/{antName}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[Produces("application/json")]
-		public ActionResult<string> GetUserSubmission(string username)
+		public ActionResult<string> GetUserSubmission(string userName, string antName)
 		{
-			if (_fileService.UserSubmissionExists(username))
+			string fileName = $"{userName}_{antName}";
+			if (_fileService.UserSubmissionExists(fileName))
 			{
-				return Ok(_fileService.GetUserSubmission(username));
+				return Ok(_fileService.GetUserSubmission(antName, userName));
 			}
-			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) });
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{userName}_{antName}") });
 		}
 
-		[HttpPut("{username}")]
+		[HttpPut("{userName}/{antName}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[Produces("application/json")]
-		public ActionResult SubmitUserEntry(string username, [FromBody] string submission)
+		public ActionResult SubmitUserEntry(string userName, string antName, [FromBody] string submission)
 		{
-			if (submission != string.Empty)
+			if (submission != null)
 			{
-				_fileService.CreateOrOverwriteUserSubmission(username, submission);
+				_fileService.CreateOrOverwriteUserSubmission(antName, userName, submission);
 				return NoContent();
 			}
 			return BadRequest(new ErrorResponse { ErrorCode = 400, ErrorMessage = ErrorResponses.SubmissionPutBodyEmpty });
 		}
 
-		[HttpDelete("{username}")]
+		[HttpDelete("{userName}/{antName}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[Produces("application/json")]
-		public ActionResult DeleteSubmission(string username)
+		public ActionResult DeleteSubmission(string antName, string userName)
 		{
-			if (_fileService.UserSubmissionExists(username))
+			if (_fileService.UserSubmissionExists(antName))
 			{
-				_fileService.DeleteUserSubmission(username);
+				_fileService.DeleteUserSubmission(antName, userName);
 				return NoContent();
 			}
-			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound(username) });
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{userName}_{antName}") });
 		}
 
 		[HttpGet("submissions")]

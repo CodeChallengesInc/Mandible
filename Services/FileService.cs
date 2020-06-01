@@ -1,6 +1,7 @@
 ﻿using CodeChallengeInc.SubmissionApi.Constants;
 using CodeChallengeInc.SubmissionApi.Interfaces;
 using CodeChallengeInc.SubmissionApi.Models;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,15 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			File.WriteAllText(backupLocation, content);
 		}
 
-		public void CreateOrOverwriteUserSubmission(string username, string submission)
+		public void CreateOrOverwriteUserSubmission(string antName, string userName, string submission)
 		{
-			if (UserSubmissionExists(username))
+			string fileName = $"{userName}_{antName}"; 
+			if (UserSubmissionExists(fileName))
 			{
-				BackupUserSubmission(GetUserSubmissionPath(username));
+				BackupUserSubmission(GetUserSubmissionPath(fileName));
 			}
 
-			using (FileStream fs = System.IO.File.Create(GetUserSubmissionPath(username)))
+			using (FileStream fs = File.Create(GetUserSubmissionPath(fileName)))
 			{
 				byte[] content = new UTF8Encoding(true).GetBytes(submission);
 
@@ -40,20 +42,22 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			}
 		}
 
-		public void DeleteUserSubmission(string username)
+		public void DeleteUserSubmission(string userName, string antName)
 		{
-			BackupUserSubmission(GetUserSubmissionPath(username));
-			File.Delete(GetUserSubmissionPath(username));
+			string fileName = $"{userName}_{antName}";
+			BackupUserSubmission(GetUserSubmissionPath(fileName));
+			File.Delete(GetUserSubmissionPath(fileName));
 		}
 
-		public bool UserSubmissionExists(string username)
+		public bool UserSubmissionExists(string fileName)
 		{
-			return File.Exists(GetUserSubmissionPath(username));
+			return File.Exists(GetUserSubmissionPath(fileName));
 		}
 
-		public LoneAntSubmission GetUserSubmission(string username)
+		public LoneAntSubmissionResponse GetUserSubmission(string antName, string userName)
 		{
-			return new LoneAntSubmission { Username = username, Submission = File.ReadAllText(GetUserSubmissionPath(username)) };
+			string filePath = GetUserSubmissionPath($"{userName}_{antName}");
+			return new LoneAntSubmissionResponse { Username = userName, Submission = File.ReadAllText(filePath), AntName = antName };
 		}
 		internal string GetSubmissionsPath()
 		{
@@ -65,9 +69,9 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			return Path.Combine(FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder);
 		}
 
-		internal string GetUserSubmissionPath(string username)
+		internal string GetUserSubmissionPath(string fileName)
 		{
-			return Path.Combine(GetSubmissionsPath(), username + FileInformation.LoneAntFileExtension);
+			return Path.Combine(GetSubmissionsPath(), fileName + FileInformation.LoneAntFileExtension);
 		}
 
 		public List<LoneAntSubmission> GetSubmissionsJson()
@@ -75,7 +79,12 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			List<LoneAntSubmission> submissions = new List<LoneAntSubmission>();
 			foreach(string submissionName in GetSubmissionNames())
 			{
-				submissions.Add(GetUserSubmission(submissionName));
+				List<string> fileNameParts = submissionName.Split('_').ToList();
+				string userName = fileNameParts[0];
+				fileNameParts.RemoveAt(0);
+				string antName = fileNameParts.Join("_");
+
+				submissions.Add(GetUserSubmission(antName, userName));
 			}
 
 			return submissions;
