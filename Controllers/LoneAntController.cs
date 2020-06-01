@@ -64,7 +64,8 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		[Produces("application/json")]
 		public ActionResult DeleteSubmission(string antName, string userName)
 		{
-			if (_fileService.UserSubmissionExists(antName))
+			string fileName = $"{userName}_{antName}";
+			if (_fileService.UserSubmissionExists(fileName))
 			{
 				_fileService.DeleteUserSubmission(antName, userName);
 				return NoContent();
