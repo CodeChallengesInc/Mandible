@@ -80,11 +80,7 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			List<LoneAntSubmissionResponse> submissions = new List<LoneAntSubmissionResponse>();
 			foreach(string submissionName in GetSubmissionNames())
 			{
-				List<string> fileNameParts = submissionName.Split('_').ToList();
-				string userName = fileNameParts[0];
-				fileNameParts.RemoveAt(0);
-				string antName = fileNameParts.Join("_");
-
+				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
 				submissions.Add(GetUserSubmission(antName, userName));
 			}
 
@@ -97,17 +93,56 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			
 			foreach (string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
 			{
-				string submissionName;
-				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)){
-					submissionName = submissionPath.Replace($"{GetSubmissionsPath()}\\", string.Empty);
-				}
-				else {
-					submissionName = submissionPath.Replace(FileInformation.DockerFilePathPrefix, string.Empty);
-				}
+				string submissionName = ExtractSubmissionNameFromPath(submissionPath);
+				
 				submissionNames.Add(submissionName.Replace(FileInformation.LoneAntFileExtension, string.Empty));
 			}
 
 			return submissionNames;
+		}
+
+		public void PurgeDefaultAnts()
+		{
+			foreach(string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
+			{
+				string submissionName = ExtractSubmissionNameFromPath(submissionPath);
+				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
+				string submissionText = GetUserSubmission(antName, userName).Submission;
+				if (submissionText.Equals(FileInformation.DefaultAntString))
+				{
+					DeleteUserSubmission(antName, userName);
+				}
+			}
+		}
+
+		internal string ExtractSubmissionNameFromPathForWindows(string path)
+		{
+			return path.Replace($"{GetSubmissionsPath()}\\", string.Empty);
+		}
+
+		internal string ExtractSubmissionNameFromPathForLinux(string path)
+		{
+			return path.Replace(FileInformation.DockerFilePathPrefix, string.Empty);
+		}
+
+		internal string ExtractSubmissionNameFromPath(string path)
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				return ExtractSubmissionNameFromPathForWindows(path);
+			}
+			else
+			{
+				return ExtractSubmissionNameFromPathForLinux(path);
+			}
+		}
+
+		internal void ExtractUsernameAndAntNameFromSubmissionName(string submissionName, out string userName, out string antName)
+		{
+			List<string> fileNameParts = submissionName.Split('_').ToList();
+			userName = fileNameParts[0];
+			fileNameParts.RemoveAt(0);
+			antName = fileNameParts.Join("_");
 		}
 	}
 }
