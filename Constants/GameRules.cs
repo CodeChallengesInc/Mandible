@@ -15,7 +15,7 @@ Lone ant is a challenge where the player controls a single ant. Ants search the 
 
 Each submission represents a single ant that will attempt to gather food on the 250x100 grid (gridsize may vary as it's configurable on the backend, but the defualt is 250x100). Ants have the following abilities:
 
-* Sight: Each ant can see their current cell, and each cell 1 space adjacent or diagnol to it. This gives the ant a total vision of 9 cells in a 3x3 grid.
+* Sight: Each ant can see their current cell, and each cell 1 space adjacent or diagonal to it. This gives the ant a total vision of 9 cells in a 3x3 grid.
 * No Memory: An ant makes their decision each turn based on the cell of the grid they can currently see. Ants have notoriously short memories, and can't remember the action they took on previous turns. 
 * No Orientation: Due to their poor memories, ants also have no sense of orientation. The 3x3 grid that the ant is able to see will be rotated randomly, so they will need to rely on their other abilities to orient themselves each turn.
 * Moving: Ants can move to any cell they are able to see.
@@ -54,6 +54,7 @@ The ant function will receive an array called `view`, which contains an object f
 ````
 color: a number from 1-8
 food: 1 if present, 0 if not.
+ant: 1 if an enemy ant is present, 0 if not
 ````
 ## Output
 
