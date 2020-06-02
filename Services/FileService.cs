@@ -72,6 +72,7 @@ namespace CodeChallengeInc.SubmissionApi.Services
 
 		internal string GetUserSubmissionPath(string fileName)
 		{
+			if (fileName.Contains(FileInformation.LoneAntFileExtension)) return Path.Combine(GetSubmissionsPath(), fileName);
 			return Path.Combine(GetSubmissionsPath(), fileName + FileInformation.LoneAntFileExtension);
 		}
 

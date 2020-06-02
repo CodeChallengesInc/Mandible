@@ -22,8 +22,6 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		{
 			_fileService = fileService;
 			Passcode = (Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) != null) ? Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) : EnvironmentConstants.DefaultPasscode;
-			//There's almost certainly a better home for this right?
-			_fileService.PurgeDefaultAnts();
 		}
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
