@@ -46,6 +46,10 @@ namespace CodeChallengeInc.SubmissionApi
 				app.UseHsts();
 			}
 			app.UseCors("AllowAny");
+			using(IServiceScope scope = app.ApplicationServices.CreateScope())
+			{
+				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts();
+			}
 			app.UseMvc();
 		}
 	}
