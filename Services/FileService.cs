@@ -15,27 +15,27 @@ namespace CodeChallengeInc.SubmissionApi.Services
 {
 	public class FileService : IFileService
 	{
-		public void BackupUserSubmission(string path)
+		public void BackupUserSubmission(string gameType, string path)
 		{
 			string content = File.ReadAllText(path);
 			FileInfo fi = new FileInfo(path);
 
 			string filename = $"{fi.Name.Replace(FileInformation.LoneAntFileExtension, string.Empty)} - {fi.LastWriteTime.ToString(FileInformation.DateTimeFormat)}{fi.Extension}";
-			string backupLocation = Path.Combine(GetBackupsPath(), filename);
+			string backupLocation = Path.Combine(GetBackupsPath(gameType), filename);
 
 			File.WriteAllText(backupLocation, content);
 		}
 
-		public void CreateOrOverwriteUserSubmission(string antName, string userName, string submission)
+		public void CreateOrOverwriteUserSubmission(string gameType, string antName, string userName, string submission)
 		{
 			userName = userName.Replace("_", string.Empty);
 			string fileName = $"{userName}_{antName}"; 
-			if (UserSubmissionExists(fileName))
+			if (UserSubmissionExists(gameType, fileName))
 			{
-				BackupUserSubmission(GetUserSubmissionPath(fileName));
+				BackupUserSubmission(gameType, GetUserSubmissionPath(gameType, fileName));
 			}
 
-			using (FileStream fs = File.Create(GetUserSubmissionPath(fileName)))
+			using (FileStream fs = File.Create(GetUserSubmissionPath(gameType, fileName)))
 			{
 				byte[] content = new UTF8Encoding(true).GetBytes(submission);
 
@@ -43,58 +43,58 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			}
 		}
 
-		public void DeleteUserSubmission(string antName, string userName)
+		public void DeleteUserSubmission(string gameType, string antName, string userName)
 		{
 			string fileName = $"{userName}_{antName}";
-			BackupUserSubmission(GetUserSubmissionPath(fileName));
-			File.Delete(GetUserSubmissionPath(fileName));
+			BackupUserSubmission(gameType, GetUserSubmissionPath(gameType, fileName));
+			File.Delete(GetUserSubmissionPath(gameType, fileName));
 		}
 
-		public bool UserSubmissionExists(string fileName)
+		public bool UserSubmissionExists(string gameType, string fileName)
 		{
-			return File.Exists(GetUserSubmissionPath(fileName));
+			return File.Exists(GetUserSubmissionPath(gameType, fileName));
 		}
 
-		public LoneAntSubmissionResponse GetUserSubmission(string antName, string userName)
+		public LoneAntSubmissionResponse GetUserSubmission(string gameType, string antName, string userName)
 		{
-			string filePath = GetUserSubmissionPath($"{userName}_{antName}");
-			return new LoneAntSubmissionResponse { Username = userName, Submission = File.ReadAllText(filePath), AntName = antName };
+			string filePath = GetUserSubmissionPath(gameType, $"{userName}_{antName}");
+			return new LoneAntSubmissionResponse { Username = userName, Submission = File.ReadAllText(filePath), AnimalName = antName };
 		}
-		internal string GetSubmissionsPath()
+		internal string GetSubmissionsPath(string gameType)
 		{
-			return Path.Combine(FileInformation.LoneAntFolder, FileInformation.SubmissionFolder);
-		}
-
-		internal string GetBackupsPath()
-		{
-			return Path.Combine(FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder);
+			return Path.Combine(FileInformation.SubmissionFolder, gameType);
 		}
 
-		internal string GetUserSubmissionPath(string fileName)
+		internal string GetBackupsPath(string gameType)
 		{
-			if (fileName.Contains(FileInformation.LoneAntFileExtension)) return Path.Combine(GetSubmissionsPath(), fileName);
-			return Path.Combine(GetSubmissionsPath(), fileName + FileInformation.LoneAntFileExtension);
+			return Path.Combine(FileInformation.BackupSubmissionFolder, gameType);
 		}
 
-		public List<LoneAntSubmissionResponse> GetSubmissionsJson()
+		internal string GetUserSubmissionPath(string gameType, string fileName)
+		{
+			if (fileName.Contains(FileInformation.LoneAntFileExtension)) return Path.Combine(GetSubmissionsPath(gameType), fileName);
+			return Path.Combine(GetSubmissionsPath(gameType), fileName + FileInformation.LoneAntFileExtension);
+		}
+
+		public List<LoneAntSubmissionResponse> GetSubmissionsJson(string gameType)
 		{
 			List<LoneAntSubmissionResponse> submissions = new List<LoneAntSubmissionResponse>();
-			foreach(string submissionName in GetSubmissionNames())
+			foreach(string submissionName in GetSubmissionNames(gameType))
 			{
 				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
-				submissions.Add(GetUserSubmission(antName, userName));
+				submissions.Add(GetUserSubmission(gameType, antName, userName));
 			}
 
 			return submissions;
 		}
 
-		public List<string> GetSubmissionNames()
+		public List<string> GetSubmissionNames(string gameType)
 		{
 			List<string> submissionNames = new List<string>();
 			
-			foreach (string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
+			foreach (string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath(gameType)))
 			{
-				string submissionName = ExtractSubmissionNameFromPath(submissionPath);
+				string submissionName = ExtractSubmissionNameFromPath(gameType, submissionPath);
 				
 				submissionNames.Add(submissionName.Replace(FileInformation.LoneAntFileExtension, string.Empty));
 			}
@@ -102,39 +102,39 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			return submissionNames;
 		}
 
-		public void PurgeDefaultAnts()
+		public void PurgeDefaultAnts(string gameType)
 		{
-			foreach(string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath()))
+			foreach(string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath(gameType)))
 			{
-				string submissionName = ExtractSubmissionNameFromPath(submissionPath);
+				string submissionName = ExtractSubmissionNameFromPath(gameType, submissionPath);
 				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
-				string submissionText = GetUserSubmission(antName, userName).Submission;
+				string submissionText = GetUserSubmission(gameType, antName, userName).Submission;
 				if (submissionText.Equals(FileInformation.DefaultAntString))
 				{
-					DeleteUserSubmission(antName, userName);
+					DeleteUserSubmission(gameType, antName, userName);
 				}
 			}
 		}
 
-		internal string ExtractSubmissionNameFromPathForWindows(string path)
+		internal string ExtractSubmissionNameFromPathForWindows(string gameType, string path)
 		{
-			return path.Replace($"{GetSubmissionsPath()}\\", string.Empty);
+			return path.Replace($"{GetSubmissionsPath(gameType)}\\", string.Empty);
 		}
 
-		internal string ExtractSubmissionNameFromPathForLinux(string path)
+		internal string ExtractSubmissionNameFromPathForLinux(string gameType, string path)
 		{
-			return path.Replace(FileInformation.DockerFilePathPrefix, string.Empty);
+			return path.Replace(FileInformation.DockerFilePathPrefix, string.Empty).Replace($"{gameType}/", string.Empty);
 		}
 
-		internal string ExtractSubmissionNameFromPath(string path)
+		internal string ExtractSubmissionNameFromPath(string gameType, string path)
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				return ExtractSubmissionNameFromPathForWindows(path);
+				return ExtractSubmissionNameFromPathForWindows(gameType, path);
 			}
 			else
 			{
-				return ExtractSubmissionNameFromPathForLinux(path);
+				return ExtractSubmissionNameFromPathForLinux(gameType, path);
 			}
 		}
 

@@ -48,7 +48,8 @@ namespace CodeChallengeInc.SubmissionApi
 			app.UseCors("AllowAny");
 			using(IServiceScope scope = app.ApplicationServices.CreateScope())
 			{
-				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts();
+				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts("LoneAnt");
+				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts("SpawningAnts");
 			}
 			app.UseMvc();
 		}

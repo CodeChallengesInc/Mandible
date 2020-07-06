@@ -8,14 +8,14 @@ namespace CodeChallengeInc.SubmissionApi.Interfaces
 {
 	public interface IFileService
 	{
-		bool UserSubmissionExists(string antName);
-		LoneAntSubmissionResponse GetUserSubmission(string antName, string userName);
-		void CreateOrOverwriteUserSubmission(string antName, string userName, string submission);
-		void DeleteUserSubmission(string antName, string userName);
-		void BackupUserSubmission(string path);
-		List<LoneAntSubmissionResponse> GetSubmissionsJson();
-		List<string> GetSubmissionNames();
-		void PurgeDefaultAnts();
+		bool UserSubmissionExists(string gameType, string antName);
+		LoneAntSubmissionResponse GetUserSubmission(string gameType, string antName, string userName);
+		void CreateOrOverwriteUserSubmission(string gameType, string antName, string userName, string submission);
+		void DeleteUserSubmission(string gameType, string antName, string userName);
+		void BackupUserSubmission(string gameType, string path);
+		List<LoneAntSubmissionResponse> GetSubmissionsJson(string gameType);
+		List<string> GetSubmissionNames(string gameType);
+		void PurgeDefaultAnts(string gameType);
 
 	}
 }

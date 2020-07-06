@@ -12,9 +12,8 @@ namespace CodeChallengeInc.SubmissionApi.Constants
 		public static string DateTimeFormat = "yyyy.MM.dd - H.mm.ss";
 
 		// LoneAnt specific properties
-		public static string LoneAntFolder = "LoneAnt";
 		public static string LoneAntFileExtension = ".js";
-		public static string DockerFilePathPrefix = "LoneAnt/Submissions/";
+		public static string DockerFilePathPrefix = "Submissions/";
 		public static string DefaultAntString = @"/*
 Example outputs:
     {cell:0}: move to cell 0

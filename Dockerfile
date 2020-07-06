@@ -18,8 +18,7 @@ RUN dotnet publish "SubmissionApi.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 ENV ASPNETCORE_URLS=http://+:80
-RUN mkdir LoneAnt
-RUN mkdir LoneAnt/Submissions
-RUN mkdir LoneAnt/Backups
+RUN mkdir Submissions
+RUN mkdir Backups
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "CodeChallengeInc.SubmissionApi.dll"]
