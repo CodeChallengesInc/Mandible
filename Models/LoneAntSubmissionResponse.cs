@@ -8,6 +8,6 @@ namespace CodeChallengeInc.SubmissionApi.Models
 {
 	public class LoneAntSubmissionResponse : LoneAntSubmission
 	{
-		public string AnimalName { get; set; }
+		public string Name { get; set; }
 	}
 }

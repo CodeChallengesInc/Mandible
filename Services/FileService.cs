@@ -26,10 +26,10 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			File.WriteAllText(backupLocation, content);
 		}
 
-		public void CreateOrOverwriteUserSubmission(string gameType, string antName, string userName, string submission)
+		public void CreateOrOverwriteUserSubmission(string gameType, string name, string userName, string submission)
 		{
 			userName = userName.Replace("_", string.Empty);
-			string fileName = $"{userName}_{antName}"; 
+			string fileName = $"{userName}_{name}"; 
 			if (UserSubmissionExists(gameType, fileName))
 			{
 				BackupUserSubmission(gameType, GetUserSubmissionPath(gameType, fileName));
@@ -43,9 +43,9 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			}
 		}
 
-		public void DeleteUserSubmission(string gameType, string antName, string userName)
+		public void DeleteUserSubmission(string gameType, string name, string userName)
 		{
-			string fileName = $"{userName}_{antName}";
+			string fileName = $"{userName}_{name}";
 			BackupUserSubmission(gameType, GetUserSubmissionPath(gameType, fileName));
 			File.Delete(GetUserSubmissionPath(gameType, fileName));
 		}
@@ -55,10 +55,10 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			return File.Exists(GetUserSubmissionPath(gameType, fileName));
 		}
 
-		public LoneAntSubmissionResponse GetUserSubmission(string gameType, string antName, string userName)
+		public LoneAntSubmissionResponse GetUserSubmission(string gameType, string name, string userName)
 		{
-			string filePath = GetUserSubmissionPath(gameType, $"{userName}_{antName}");
-			return new LoneAntSubmissionResponse { Username = userName, Submission = File.ReadAllText(filePath), AnimalName = antName };
+			string filePath = GetUserSubmissionPath(gameType, $"{userName}_{name}");
+			return new LoneAntSubmissionResponse { Username = userName, Submission = File.ReadAllText(filePath), Name = name };
 		}
 		internal string GetSubmissionsPath(string gameType)
 		{
@@ -81,8 +81,8 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			List<LoneAntSubmissionResponse> submissions = new List<LoneAntSubmissionResponse>();
 			foreach(string submissionName in GetSubmissionNames(gameType))
 			{
-				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
-				submissions.Add(GetUserSubmission(gameType, antName, userName));
+				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string name);
+				submissions.Add(GetUserSubmission(gameType, name, userName));
 			}
 
 			return submissions;
@@ -107,11 +107,11 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			foreach(string submissionPath in Directory.EnumerateFiles(GetSubmissionsPath(gameType)))
 			{
 				string submissionName = ExtractSubmissionNameFromPath(gameType, submissionPath);
-				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);
-				string submissionText = GetUserSubmission(gameType, antName, userName).Submission;
+				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string name);
+				string submissionText = GetUserSubmission(gameType, name, userName).Submission;
 				if (submissionText.Equals(FileInformation.DefaultAntString))
 				{
-					DeleteUserSubmission(gameType, antName, userName);
+					DeleteUserSubmission(gameType, name, userName);
 				}
 			}
 		}
@@ -138,12 +138,12 @@ namespace CodeChallengeInc.SubmissionApi.Services
 			}
 		}
 
-		internal void ExtractUsernameAndAntNameFromSubmissionName(string submissionName, out string userName, out string antName)
+		internal void ExtractUsernameAndAntNameFromSubmissionName(string submissionName, out string userName, out string name)
 		{
 			List<string> fileNameParts = submissionName.Split('_').ToList();
 			userName = fileNameParts[0];
 			fileNameParts.RemoveAt(0);
-			antName = fileNameParts.Join("_");
+			name = fileNameParts.Join("_");
 		}
 	}
 }

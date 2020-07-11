@@ -18,6 +18,7 @@ namespace CodeChallengeInc.SubmissionApi
 		{
 			PrepareEnvironment("LoneAnt");
 			PrepareEnvironment("SpawningAnts");
+			PrepareEnvironment("FormicAnts");
 			CreateWebHostBuilder(args).Build().Run();
 		}
 

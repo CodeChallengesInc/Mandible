@@ -29,47 +29,47 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 			return GameRules.LoneAnt;
 		}
 
-		[HttpGet("{gameType}/{userName}/{animalName}")]
+		[HttpGet("{gameType}/{userName}/{name}")]
 		[ProducesResponseType(StatusCodes.Status200OK)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[Produces("application/json")]
-		public ActionResult<string> GetUserSubmission(string gameType, string userName, string animalName)
+		public ActionResult<string> GetUserSubmission(string gameType, string userName, string name)
 		{
-			string fileName = $"{userName}_{animalName}";
+			string fileName = $"{userName}_{name}";
 			if (_fileService.UserSubmissionExists(gameType, fileName))
 			{
-				return Ok(_fileService.GetUserSubmission(gameType, animalName, userName));
+				return Ok(_fileService.GetUserSubmission(gameType, name, userName));
 			}
-			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{gameType}/{userName}_{animalName}") });
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{gameType}/{userName}_{name}") });
 		}
 
-		[HttpPut("{gameType}/{userName}/{animalName}")]
+		[HttpPut("{gameType}/{userName}/{name}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[Produces("application/json")]
-		public ActionResult SubmitUserEntry(string gameType, string userName, string animalName, [FromBody] string submission)
+		public ActionResult SubmitUserEntry(string gameType, string userName, string name, [FromBody] string submission)
 		{
 			if (submission != null)
 			{
-				_fileService.CreateOrOverwriteUserSubmission(gameType, animalName, userName, submission);
+				_fileService.CreateOrOverwriteUserSubmission(gameType, name, userName, submission);
 				return NoContent();
 			}
 			return BadRequest(new ErrorResponse { ErrorCode = 400, ErrorMessage = ErrorResponses.SubmissionPutBodyEmpty });
 		}
 
-		[HttpDelete("{gameType}/{userName}/{animalName}")]
+		[HttpDelete("{gameType}/{userName}/{name}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[Produces("application/json")]
-		public ActionResult DeleteSubmission(string gameType, string animalName, string userName)
+		public ActionResult DeleteSubmission(string gameType, string name, string userName)
 		{
-			string fileName = $"{userName}_{animalName}";
+			string fileName = $"{userName}_{name}";
 			if (_fileService.UserSubmissionExists(gameType, fileName))
 			{
-				_fileService.DeleteUserSubmission(gameType, animalName, userName);
+				_fileService.DeleteUserSubmission(gameType, name, userName);
 				return NoContent();
 			}
-			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{userName}_{animalName}") });
+			return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = ErrorResponses.SubmissionNotFound($"{userName}_{name}") });
 		}
 
 		[HttpGet("{gameType}/submissions")]

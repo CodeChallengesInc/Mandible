@@ -50,6 +50,7 @@ namespace CodeChallengeInc.SubmissionApi
 			{
 				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts("LoneAnt");
 				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts("SpawningAnts");
+				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts("FormicAnts");
 			}
 			app.UseMvc();
 		}
