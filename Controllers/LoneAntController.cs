@@ -51,8 +51,12 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		{
 			if (submission != null)
 			{
-				byte[] data = Convert.FromBase64String(submission);
-				string decodedString = Encoding.UTF8.GetString(data);
+				string decodedString = string.Empty;
+				if(!string.IsNullOrWhiteSpace(submission))
+				{
+					byte[] data = Convert.FromBase64String(submission);
+					decodedString = Encoding.UTF8.GetString(data);	
+				}
 				_fileService.CreateOrOverwriteUserSubmission(gameType, name, userName, decodedString);
 				return NoContent();
 			}
