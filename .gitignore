@@ -11,9 +11,9 @@
 /SubmissionApi/Properties
 /SubmissionApi/bin/Release
 /SubmissionApi/.vs/SubmissionApi/config
-/SubmissionApi/LoneAnt
+/Submissions
+/Backups
 /bin
-/LoneAnt
 /obj
 /.vs/SubmissionApi/v16
 /.vs/SubmissionApi/DesignTimeBuild

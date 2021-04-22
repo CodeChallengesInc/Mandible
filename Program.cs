@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeChallengeInc.SubmissionApi.Constants;
+using CodeChallengeInc.SubmissionApi.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,24 +16,26 @@ namespace CodeChallengeInc.SubmissionApi
 	{
 		public static void Main(string[] args)
 		{
-			PrepareEnvironment();
+			PrepareEnvironment("LoneAnt");
+			PrepareEnvironment("SpawningAnts");
+			PrepareEnvironment("FormicAnts");
 			CreateWebHostBuilder(args).Build().Run();
 		}
 
-		public static void PrepareEnvironment()
+		public static void PrepareEnvironment(string gameType)
 		{
 			string currentDirectory = Directory.GetCurrentDirectory();
-			if (!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder)))
+			if (!Directory.Exists(Path.Combine(currentDirectory, FileInformation.SubmissionFolder)))
 			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder));
+				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.SubmissionFolder));
 			}
-			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.SubmissionFolder)))
+			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.SubmissionFolder, gameType)))
 			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.SubmissionFolder));
+				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.SubmissionFolder, gameType));
 			}
-			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder)))
+			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.BackupSubmissionFolder, gameType)))
 			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder));
+				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.BackupSubmissionFolder, gameType));
 			}
 		}
 

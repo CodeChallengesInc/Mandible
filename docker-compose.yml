@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - submissions:/app/LoneAnt/Submissions
-      - backups:/app/LoneAnt/Backups
+      - submissions:/app/Submissions
+      - backups:/app/Backups
     environment:
       - PASSCODE=Adm1nsOnlyYou92385FRICKENNerd!
     ports:
