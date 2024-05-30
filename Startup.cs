@@ -29,9 +29,8 @@ namespace CodeChallengeInc.SubmissionApi
 					builder.AllowAnyMethod();
 				});
 			});
-			services.AddScoped<IFileService, FileService>();
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-			
+			services.AddSingleton<IFileService, FileService>();
+			services.AddLogging();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +49,6 @@ namespace CodeChallengeInc.SubmissionApi
 			{
 				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts();
 			}
-			app.UseMvc();
 		}
 	}
 }

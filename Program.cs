@@ -19,24 +19,27 @@ namespace CodeChallengeInc.SubmissionApi
 			CreateWebHostBuilder(args).Build().Run();
 		}
 
-		public static void PrepareEnvironment()
-		{
-			string currentDirectory = Directory.GetCurrentDirectory();
-			if (!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder)))
-			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder));
-			}
-			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.SubmissionFolder)))
-			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.SubmissionFolder));
-			}
-			if(!Directory.Exists(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder)))
-			{
-				Directory.CreateDirectory(Path.Combine(currentDirectory, FileInformation.LoneAntFolder, FileInformation.BackupSubmissionFolder));
-			}
-		}
+        public static void PrepareEnvironment()
+        {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string loneAntFolder = Path.Combine(currentDirectory, FileInformation.LoneAntFolder);
+            string submissionFolder = Path.Combine(loneAntFolder, FileInformation.SubmissionFolder);
+            string backupSubmissionFolder = Path.Combine(loneAntFolder, FileInformation.BackupSubmissionFolder);
 
-		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            EnsureDirectoryExists(loneAntFolder);
+            EnsureDirectoryExists(submissionFolder);
+            EnsureDirectoryExists(backupSubmissionFolder);
+        }
+
+        private static void EnsureDirectoryExists(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
 				.UseStartup<Startup>();
 	}
