@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace CodeChallengeInc.MandibleTests
+namespace CodeChallengeInc.Mandible.Tests
 {
     [TestClass]
     public class LoneAntControllerTests

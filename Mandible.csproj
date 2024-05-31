@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>378cbd53-9d00-4d62-9bef-7073aa574db5</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <AssemblyName>CodeChallengeInc.SubmissionApi</AssemblyName>
-    <RootNamespace>CodeChallengeInc.SubmissionApi</RootNamespace>
+    <AssemblyName>CodeChallengeInc.Mandible</AssemblyName>
+    <RootNamespace>CodeChallengeInc.Mandible</RootNamespace>
     <DockerComposeProjectPath>docker-compose.dcproj</DockerComposeProjectPath>
     <DockerfileContext>.</DockerfileContext>
 

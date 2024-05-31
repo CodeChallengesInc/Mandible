@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeChallengeInc.MandibleTests
+namespace CodeChallengeInc.Mandible.Tests
 {
     [TestClass]
     public class FileServiceTests

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandible", "Mandible.csproj", "{59B8D60B-7633-4F88-AFDF-1DDD044D9F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MandibleTests", "Mandible Tests\MandibleTests\MandibleTests.csproj", "{587FB43A-3E36-415D-A592-47D82233D45A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mandible.Tests", "Mandible Tests\MandibleTests\Mandible.Tests.csproj", "{587FB43A-3E36-415D-A592-47D82233D45A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
