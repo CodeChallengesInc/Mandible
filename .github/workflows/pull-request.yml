@@ -20,7 +20,7 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
-        ls ${{ github.workspace }}/SubmissionApiTests
+        ls ${{ github.workspace }}/SubmissionAPITests
 
     - name: Restore dependencies
       run: dotnet restore SubmissionApi.sln
