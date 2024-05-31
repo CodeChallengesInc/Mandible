@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO.Abstractions;
 
 namespace CodeChallengeInc.SubmissionApi
 {
@@ -29,7 +30,8 @@ namespace CodeChallengeInc.SubmissionApi
 					builder.AllowAnyMethod();
 				});
 			});
-			services.AddSingleton<IFileService, FileService>();
+            services.AddSingleton<IFileSystem, FileSystem>();
+            services.AddSingleton<IFileService, FileService>();
 			services.AddLogging();
 		}
 

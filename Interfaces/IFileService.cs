@@ -13,7 +13,7 @@ namespace CodeChallengeInc.SubmissionApi.Interfaces
 		void CreateOrOverwriteUserSubmission(string userName, string antName, string submission);
 		void DeleteUserSubmission(string userName, string antName);
 		void BackupUserSubmission(string path);
-		List<LoneAntSubmissionResponse> GetSubmissionsJson();
+		List<LoneAntSubmissionResponse> GetSubmissionsReponse();
 		List<string> GetSubmissionNames();
 		void PurgeDefaultAnts();
 

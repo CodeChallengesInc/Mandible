@@ -100,7 +100,7 @@ namespace CodeChallengeInc.SubmissionApi.Controllers
 		[Produces("application/json")]
 		public ActionResult<string> GetUserSubmissions()
 		{
-			List<LoneAntSubmissionResponse> userSubmissions = _fileService.GetSubmissionsJson();
+			List<LoneAntSubmissionResponse> userSubmissions = _fileService.GetSubmissionsReponse();
 			if(userSubmissions.Count == 0)
 			{
                 return NotFound(new ErrorResponse { ErrorCode = 404, ErrorMessage = "No submissions found." });
