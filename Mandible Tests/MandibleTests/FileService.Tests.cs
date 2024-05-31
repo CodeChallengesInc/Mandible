@@ -114,6 +114,12 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void PurgeDefaultAnts_ShouldDeleteDefaultAnts_WhenDefaultAntsExist()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Assert.Inconclusive("Test is not supported on non-Windows platforms.");
+                return;
+            }
+
             List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}{slash}cci_default1.js", $@"{submissionsPath}{slash}cci_default2.js" };
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(defaultAntPaths);
@@ -239,6 +245,12 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void DeleteUserSubmission_ShouldDeleteSubmission_WhenSubmissionExists()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Assert.Inconclusive("Test is not supported on non-Windows platforms.");
+                return;
+            }
+
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
 
             _fileService.DeleteUserSubmission($"{userName}1", $"{antName}1");
