@@ -20,10 +20,10 @@ namespace CodeChallengeInc.Mandible.Tests
         private FileService _fileService;
         string submissionsPath = @"LoneAnt\Submissions";
         string slash = @"\";
-        string userName = "testUser";
-        string antName = "testAnt";
-        List<string> expectedSubmissionNames = new List<string> { "user1_ant1", "user2_ant2" };
-        List<string> fileNames = new List<string> { "user1_ant1.js", "user2_ant2.js" };
+        const string userName = "testUser";
+        const string antName = "testAnt";
+        List<string> expectedSubmissionNames = new List<string> { $"{userName}_{antName}1", $"{userName}_{antName}2" };
+        List<string> fileNames = new List<string> { $"{userName}_{antName}1.js", $"{userName}_{antName}2.js" };
         string userSubmissionPath;
         List<string> filePaths;
 
