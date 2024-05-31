@@ -1,10 +1,5 @@
 ﻿using CodeChallengeInc.Mandible.Interfaces;
 using CodeChallengeInc.Mandible.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using System.IO.Abstractions;
 
 namespace CodeChallengeInc.Mandible
@@ -36,7 +31,7 @@ namespace CodeChallengeInc.Mandible
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
@@ -49,7 +44,7 @@ namespace CodeChallengeInc.Mandible
 			app.UseCors("AllowAny");
 			using(IServiceScope scope = app.ApplicationServices.CreateScope())
 			{
-				scope.ServiceProvider.GetService<IFileService>().PurgeDefaultAnts();
+				scope.ServiceProvider.GetService<IFileService>()!.PurgeDefaultAnts();
 			}
 		}
 	}
