@@ -18,6 +18,14 @@ namespace CodeChallengeInc.Mandible.Tests
     {
         private Mock<IFileSystem> _mockFileSystem;
         private FileService _fileService;
+        string submissionsPath = @"LoneAnt\Submissions";
+        string slash = @"\";
+        string userName = "testUser";
+        string antName = "testAnt";
+        List<string> expectedSubmissionNames = new List<string> { "user1_ant1", "user2_ant2" };
+        List<string> fileNames = new List<string> { "user1_ant1.js", "user2_ant2.js" };
+        string userSubmissionPath;
+        List<string> filePaths;
 
         [TestInitialize]
         public void TestInitialize()
@@ -26,6 +34,14 @@ namespace CodeChallengeInc.Mandible.Tests
             _fileService = new FileService(_mockFileSystem.Object);
 
             _mockFileSystem.Setup(fs => fs.Path.Combine(It.IsAny<string>(), It.IsAny<string>())).Returns<string, string>((a, b) => $@"{a}\{b}");
+
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                submissionsPath = "LoneAnt/Submissions";
+                slash = "/";
+            }
+            userSubmissionPath = $@"LoneAnt{slash}Submissions{slash}{userName}_{antName}.js";
+            filePaths = new List<string> { $@"{submissionsPath}{slash}user1_ant1.js", $@"{submissionsPath}{slash}user2_ant2.js" };
         }
 
         [TestMethod]
@@ -86,11 +102,7 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void GetSubmissionNames_ShouldReturnCorrectNames_WhenFilesExist()
         {
-
-            string submissionsPath = @"LoneAnt\Submissions";
-            List<string> expectedSubmissionNames = new List<string> { "user1_ant1", "user2_ant2" };
-            List<string> fileNames = new List<string> { "user1_ant1.js", "user2_ant2.js" };
-            List<string> filePaths = new List<string> { $@"{submissionsPath}\user1_ant1.js", $@"{submissionsPath}\user2_ant2.js" };
+            
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(filePaths);
 
@@ -104,8 +116,6 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void PurgeDefaultAnts_ShouldDeleteDefaultAnts_WhenDefaultAntsExist()
         {
-
-            string submissionsPath = @"LoneAnt\Submissions";
             List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
             List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}\cci_default1.js", $@"{submissionsPath}\cci_default2.js" };
 
@@ -126,8 +136,6 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void PurgeDefaultAnts_ShouldNotDeleteDefaultAnts_WhenDefaultAntDoesntExist()
         {
-
-            string submissionsPath = @"LoneAnt\Submissions";
             List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
             List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}\cci_default1.js", $@"{submissionsPath}\cci_default2.js" };
 
@@ -147,23 +155,13 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void GetSubmissionsResponse_ShouldReturnCorrectSubmissions_WhenSubmissionsExist()
         {
-
-            string submissionsPath = @"LoneAnt\Submissions";
-            string slash = @"\";
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                submissionsPath = "LoneAnt/Submissions";
-                slash = "/";
-            }
-            List<string> submissionNames = new List<string> { "user1_ant1", "user2_ant2" };
-            List<string> submissionPaths = new List<string> { $@"{submissionsPath}{slash}user1_ant1.js", $@"{submissionsPath}{slash}user2_ant2.js" };
             List<LoneAntSubmissionResponse> expectedSubmissions = new List<LoneAntSubmissionResponse>
             {
                 new LoneAntSubmissionResponse { Username = "user1", AntName = "ant1", Submission = "submission1" },
                 new LoneAntSubmissionResponse { Username = "user2", AntName = "ant2", Submission = "submission2" }
             };
 
-            _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(submissionPaths);
+            _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(filePaths);
             _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Returns<string>(path => path.Contains("user1") ? "submission1" : "submission2");
 
             List<LoneAntSubmissionResponse> submissions = _fileService.GetSubmissionsReponse();
@@ -181,10 +179,6 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void GetSubmissionsResponse_ShouldReturnEmptyList_WhenSubmissionsDontExist()
         {
-
-            string submissionsPath = @"LoneAnt\Submissions";
-            List<string> submissionNames = new List<string> { "user1_ant1", "user2_ant2" };
-            List<string> submissionPaths = new List<string> { $@"{submissionsPath}\user1_ant1.js", $@"{submissionsPath}\user2_ant2.js" };
             List<LoneAntSubmissionResponse> expectedSubmissions = new List<LoneAntSubmissionResponse>
             {
                 new LoneAntSubmissionResponse { Username = "user1", AntName = "ant1", Submission = "submission1" },
@@ -208,10 +202,7 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void GetUserSubmission_ShouldReturnCorrectSubmission_WhenSubmissionExists()
         {
-            string userName = "testUser";
-            string antName = "testAnt";
             string submission = "Test submission";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
 
             _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Returns(submission);
 
@@ -226,10 +217,6 @@ namespace CodeChallengeInc.Mandible.Tests
         [ExpectedException(typeof(FileNotFoundException))]
         public void GetUserSubmission_ShouldThrowFileNotFoundException_WhenSubmissionDoesNotExist()
         {
-            string userName = "testUser";
-            string antName = "testAnt";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
-
             _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Throws<FileNotFoundException>();
 
             _fileService.GetUserSubmission(userName, antName);
@@ -238,68 +225,40 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void UserSubmissionExists_ShouldReturnTrue_WhenSubmissionExists()
         {
-            // Arrange
-            string userName = "testUser";
-            string antName = "testAnt";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
-
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
 
-            // Act
             bool result = _fileService.UserSubmissionExists(userName, antName);
 
-            // Assert
             Assert.IsTrue(result);
         }
 
         [TestMethod]
         public void UserSubmissionExists_ShouldReturnFalse_WhenSubmissionDoesNotExist()
         {
-            // Arrange
-            string userName = "testUser";
-            string antName = "testAnt";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
-
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(false);
 
-            // Act
             bool result = _fileService.UserSubmissionExists(userName, antName);
 
-            // Assert
             Assert.IsFalse(result);
         }
 
         [TestMethod]
         public void DeleteUserSubmission_ShouldDeleteSubmission_WhenSubmissionExists()
         {
-            // Arrange
-            string userName = "testUser";
-            string antName = "testAnt";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
-
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
 
-            // Act
             _fileService.DeleteUserSubmission(userName, antName);
 
-            // Assert
             _mockFileSystem.Verify(fs => fs.File.Delete(userSubmissionPath), Times.Once);
         }
 
         [TestMethod]
         public void DeleteUserSubmission_ShouldNotDeleteSubmission_WhenSubmissionDoesNotExist()
         {
-            // Arrange
-            string userName = "testUser";
-            string antName = "testAnt";
-            string userSubmissionPath = $@"LoneAnt\Submissions\{userName}_{antName}.js";
-
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(false);
 
-            // Act
             _fileService.DeleteUserSubmission(userName, antName);
 
-            // Assert
             _mockFileSystem.Verify(fs => fs.File.Delete(userSubmissionPath), Times.Never);
         }
     }
