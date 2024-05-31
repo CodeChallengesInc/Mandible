@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using CodeChallengeInc.SubmissionApi.Interfaces;
-using CodeChallengeInc.SubmissionApi.Constants;
+using CodeChallengeInc.Mandible.Interfaces;
+using CodeChallengeInc.Mandible.Constants;
 using System.IO;
 using System;
 using Newtonsoft.Json;
-using CodeChallengeInc.SubmissionApi.Models;
+using CodeChallengeInc.Mandible.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Text;
 using Microsoft.Extensions.Logging;
 
-namespace CodeChallengeInc.SubmissionApi.Controllers
+namespace CodeChallengeInc.Mandible.Controllers
 {
 	[Route("lone-ant")]
 	[ApiController]

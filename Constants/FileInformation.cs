@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CodeChallengeInc.SubmissionApi.Constants
+namespace CodeChallengeInc.Mandible.Constants
 {
 	public class FileInformation
 	{

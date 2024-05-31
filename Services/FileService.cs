@@ -1,6 +1,6 @@
-﻿using CodeChallengeInc.SubmissionApi.Constants;
-using CodeChallengeInc.SubmissionApi.Interfaces;
-using CodeChallengeInc.SubmissionApi.Models;
+﻿using CodeChallengeInc.Mandible.Constants;
+using CodeChallengeInc.Mandible.Interfaces;
+using CodeChallengeInc.Mandible.Models;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace CodeChallengeInc.SubmissionApi.Services
+namespace CodeChallengeInc.Mandible.Services
 {
 	public class FileService : IFileService
 	{

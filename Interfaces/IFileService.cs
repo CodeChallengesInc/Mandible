@@ -1,10 +1,10 @@
-﻿using CodeChallengeInc.SubmissionApi.Models;
+﻿using CodeChallengeInc.Mandible.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CodeChallengeInc.SubmissionApi.Interfaces
+namespace CodeChallengeInc.Mandible.Interfaces
 {
 	public interface IFileService
 	{

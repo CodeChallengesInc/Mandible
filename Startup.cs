@@ -1,5 +1,5 @@
-﻿using CodeChallengeInc.SubmissionApi.Interfaces;
-using CodeChallengeInc.SubmissionApi.Services;
+﻿using CodeChallengeInc.Mandible.Interfaces;
+using CodeChallengeInc.Mandible.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO.Abstractions;
 
-namespace CodeChallengeInc.SubmissionApi
+namespace CodeChallengeInc.Mandible
 {
 	public class Startup
 	{
