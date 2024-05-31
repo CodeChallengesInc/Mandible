@@ -57,6 +57,7 @@ namespace CodeChallengeInc.Mandible.Services
 		{
             string fileName = $"{userName}_{antName}";
             string userSubmissionPath = GetUserSubmissionPath(fileName);
+			Console.WriteLine($"Validating if {userSubmissionPath} exists");
             return _fileSystem.File.Exists(userSubmissionPath);
         }
 
