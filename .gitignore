@@ -21,3 +21,6 @@
 /TestResults
 /SubmissionAPITests/bin/Debug/net8.0
 /SubmissionAPITests/obj
+/.vs
+/Mandible Tests/MandibleTests/bin/Debug/net8.0
+/Mandible Tests/MandibleTests/obj
