@@ -18,7 +18,7 @@ jobs:
         dotnet-version: 3.1
 
     - name: Restore dependencies
-      run: dotnet restore SubmissionApi.sln
+      run: dotnet restore Mandible.sln
 
     - name: Build
       run: dotnet build --no-restore
