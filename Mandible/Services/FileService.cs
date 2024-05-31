@@ -112,10 +112,7 @@ namespace CodeChallengeInc.Mandible.Services
 
 		public void PurgeDefaultAnts()
 		{
-			string submissionsPath = GetSubmissionsPath();
-			var shuckyduck = _fileSystem.Directory.EnumerateFiles(submissionsPath);
-
-            foreach (string submissionPath in shuckyduck)
+            foreach (string submissionPath in _fileSystem.Directory.EnumerateFiles(GetSubmissionsPath()))
 			{
 				string submissionName = ExtractSubmissionNameFromPath(submissionPath);
 				ExtractUsernameAndAntNameFromSubmissionName(submissionName, out string userName, out string antName);

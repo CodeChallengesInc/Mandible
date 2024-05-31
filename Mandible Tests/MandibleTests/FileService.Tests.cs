@@ -102,8 +102,6 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void GetSubmissionNames_ShouldReturnCorrectNames_WhenFilesExist()
         {
-            
-
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(filePaths);
 
             List<string> submissionNames = _fileService.GetSubmissionNames();
@@ -116,10 +114,9 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void PurgeDefaultAnts_ShouldDeleteDefaultAnts_WhenDefaultAntsExist()
         {
-            List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
             List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}{slash}cci_default1.js", $@"{submissionsPath}{slash}cci_default2.js" };
 
-            _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(submissionsPath)).Returns(defaultAntPaths);
+            _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(defaultAntPaths);
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
             _mockFileSystem.Setup(fs => fs.File.Delete(It.IsAny<string>()));
             _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Returns(FileInformation.DefaultAntString);
@@ -136,13 +133,10 @@ namespace CodeChallengeInc.Mandible.Tests
         [TestMethod]
         public void PurgeDefaultAnts_ShouldNotDeleteDefaultAnts_WhenDefaultAntDoesntExist()
         {
-            List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
             List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}{slash}cci_default1.js", $@"{submissionsPath}{slash}cci_default2.js" };
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>())).Returns(defaultAntPaths);
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
-
-            var test = _mockFileSystem.Object.Directory.EnumerateFiles(submissionsPath);
 
             _fileService.PurgeDefaultAnts();
 
