@@ -117,7 +117,7 @@ namespace CodeChallengeInc.Mandible.Tests
         public void PurgeDefaultAnts_ShouldDeleteDefaultAnts_WhenDefaultAntsExist()
         {
             List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
-            List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}\cci_default1.js", $@"{submissionsPath}\cci_default2.js" };
+            List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}{slash}cci_default1.js", $@"{submissionsPath}{slash}cci_default2.js" };
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(submissionsPath)).Returns(defaultAntPaths);
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
@@ -137,7 +137,7 @@ namespace CodeChallengeInc.Mandible.Tests
         public void PurgeDefaultAnts_ShouldNotDeleteDefaultAnts_WhenDefaultAntDoesntExist()
         {
             List<string> defaultAntNames = new List<string> { "cci_default1", "cci_default2" };
-            List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}\cci_default1.js", $@"{submissionsPath}\cci_default2.js" };
+            List<string> defaultAntPaths = new List<string> { $@"{submissionsPath}{slash}cci_default1.js", $@"{submissionsPath}{slash}cci_default2.js" };
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>(), It.IsAny<string>())).Returns(defaultAntPaths);
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
