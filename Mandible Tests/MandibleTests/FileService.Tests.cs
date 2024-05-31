@@ -22,8 +22,8 @@ namespace CodeChallengeInc.Mandible.Tests
         string slash = @"\";
         const string userName = "testUser";
         const string antName = "testAnt";
-        List<string> expectedSubmissionNames = new List<string> { $"{userName}_{antName}1", $"{userName}_{antName}2" };
-        List<string> fileNames = new List<string> { $"{userName}_{antName}1.js", $"{userName}_{antName}2.js" };
+        List<string> expectedSubmissionNames = new List<string> { $"{userName}1_{antName}1", $"{userName}2_{antName}2" };
+        List<string> fileNames = new List<string> { $"{userName}1_{antName}1.js", $"{userName}2_{antName}2.js" };
         string userSubmissionPath;
         List<string> filePaths;
 
@@ -40,8 +40,8 @@ namespace CodeChallengeInc.Mandible.Tests
                 submissionsPath = "LoneAnt/Submissions";
                 slash = "/";
             }
-            userSubmissionPath = $@"LoneAnt{slash}Submissions{slash}{userName}_{antName}.js";
-            filePaths = new List<string> { $@"{submissionsPath}{slash}user1_ant1.js", $@"{submissionsPath}{slash}user2_ant2.js" };
+            userSubmissionPath = $@"LoneAnt{slash}Submissions{slash}{userName}1_{antName}1.js";
+            filePaths = new List<string> { $@"{submissionsPath}{slash}{userName}1_{antName}1.js", $@"{submissionsPath}{slash}{userName}2_{antName}2.js" };
         }
 
         [TestMethod]
@@ -157,12 +157,12 @@ namespace CodeChallengeInc.Mandible.Tests
         {
             List<LoneAntSubmissionResponse> expectedSubmissions = new List<LoneAntSubmissionResponse>
             {
-                new LoneAntSubmissionResponse { Username = "user1", AntName = "ant1", Submission = "submission1" },
-                new LoneAntSubmissionResponse { Username = "user2", AntName = "ant2", Submission = "submission2" }
+                new LoneAntSubmissionResponse { Username = $"{userName}1", AntName = $"{antName}1", Submission = "submission1" },
+                new LoneAntSubmissionResponse { Username = $"{userName}2", AntName = $"{antName}2", Submission = "submission2" }
             };
 
             _mockFileSystem.Setup(fs => fs.Directory.EnumerateFiles(It.IsAny<string>())).Returns(filePaths);
-            _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Returns<string>(path => path.Contains("user1") ? "submission1" : "submission2");
+            _mockFileSystem.Setup(fs => fs.File.ReadAllText(It.IsAny<string>())).Returns<string>(path => path.Contains($"{userName}1") ? "submission1" : "submission2");
 
             List<LoneAntSubmissionResponse> submissions = _fileService.GetSubmissionsReponse();
 
@@ -247,7 +247,7 @@ namespace CodeChallengeInc.Mandible.Tests
         {
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(true);
 
-            _fileService.DeleteUserSubmission(userName, antName);
+            _fileService.DeleteUserSubmission($"{userName}1", $"{antName}1");
 
             _mockFileSystem.Verify(fs => fs.File.Delete(userSubmissionPath), Times.Once);
         }
@@ -257,7 +257,7 @@ namespace CodeChallengeInc.Mandible.Tests
         {
             _mockFileSystem.Setup(fs => fs.File.Exists(It.IsAny<string>())).Returns(false);
 
-            _fileService.DeleteUserSubmission(userName, antName);
+            _fileService.DeleteUserSubmission($"{userName}1", $"{antName}1");
 
             _mockFileSystem.Verify(fs => fs.File.Delete(userSubmissionPath), Times.Never);
         }
