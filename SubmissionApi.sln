@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SubmissionApi", "SubmissionApi.csproj", "{59B8D60B-7633-4F88-AFDF-1DDD044D9F20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubmissionAPITests", "..\SubmissionAPITests\SubmissionAPITests.csproj", "{5EC53425-19DC-4726-AE0A-CC7560943769}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubmissionAPITests", "SubmissionAPITests\SubmissionAPITests.csproj", "{5EC53425-19DC-4726-AE0A-CC7560943769}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -20,6 +20,7 @@ jobs:
     - name: List files in the repository
       run: |
         ls ${{ github.workspace }}
+        echo "\n\n\n sup \n\n\n"
         ls ${{ github.workspace }}/SubmissionAPITests
 
     - name: Restore dependencies
