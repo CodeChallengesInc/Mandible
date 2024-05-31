@@ -16,12 +16,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1
-   
-    - name: List files in the repository
-      run: |
-        ls ${{ github.workspace }}
-        echo "\n\n\n sup \n\n\n"
-        ls ${{ github.workspace }}/SubmissionAPITests
 
     - name: Restore dependencies
       run: dotnet restore SubmissionApi.sln
