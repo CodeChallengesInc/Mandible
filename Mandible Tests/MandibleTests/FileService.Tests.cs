@@ -4,8 +4,10 @@ using CodeChallengeInc.Mandible.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,7 +96,9 @@ namespace CodeChallengeInc.Mandible.Tests
 
             List<string> submissionNames = _fileService.GetSubmissionNames();
 
-            CollectionAssert.AreEqual(expectedSubmissionNames, submissionNames);
+            Assert.AreEqual(expectedSubmissionNames.Count, submissionNames.Count);
+            Assert.AreEqual(expectedSubmissionNames[0], submissionNames[0]);
+            Assert.AreEqual(expectedSubmissionNames[1], submissionNames[1]);
         }
 
         [TestMethod]
@@ -145,8 +149,14 @@ namespace CodeChallengeInc.Mandible.Tests
         {
 
             string submissionsPath = @"LoneAnt\Submissions";
+            string slash = @"\";
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                submissionsPath = "LoneAnt/Submissions";
+                slash = "/";
+            }
             List<string> submissionNames = new List<string> { "user1_ant1", "user2_ant2" };
-            List<string> submissionPaths = new List<string> { $@"{submissionsPath}\user1_ant1.js", $@"{submissionsPath}\user2_ant2.js" };
+            List<string> submissionPaths = new List<string> { $@"{submissionsPath}{slash}user1_ant1.js", $@"{submissionsPath}{slash}user2_ant2.js" };
             List<LoneAntSubmissionResponse> expectedSubmissions = new List<LoneAntSubmissionResponse>
             {
                 new LoneAntSubmissionResponse { Username = "user1", AntName = "ant1", Submission = "submission1" },
