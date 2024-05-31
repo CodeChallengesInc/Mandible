@@ -19,3 +19,5 @@
 /.vs/SubmissionApi/DesignTimeBuild
 /.vs/SubmissionApi
 /TestResults
+/SubmissionAPITests/bin/Debug/net8.0
+/SubmissionAPITests/obj
