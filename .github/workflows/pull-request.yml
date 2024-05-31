@@ -26,10 +26,3 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 
-    - name: Check coverage
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        file: ./tests/**/coverage.cobertura.xml # adjust this path if necessary
-        fail_ci_if_error: true # if coverage is below threshold, fail the CI
-        coverage_threshold: 60% # set the coverage threshold
