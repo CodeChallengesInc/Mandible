@@ -1,0 +1,35 @@
+name: .NET Core CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+
+    - name: Check coverage
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        file: ./tests/**/coverage.cobertura.xml # adjust this path if necessary
+        fail_ci_if_error: true # if coverage is below threshold, fail the CI
+        coverage_threshold: 60% # set the coverage threshold
