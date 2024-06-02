@@ -17,3 +17,12 @@
 /obj
 /.vs/SubmissionApi/v16
 /.vs/SubmissionApi/DesignTimeBuild
+/.vs/SubmissionApi
+/TestResults
+/SubmissionAPITests/bin/Debug/net8.0
+/SubmissionAPITests/obj
+/.vs
+/Mandible Tests/MandibleTests/bin/Debug/net8.0
+/Mandible Tests/MandibleTests/obj
+/Mandible/bin/Debug/net8.0
+/Mandible/obj

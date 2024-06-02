@@ -1,0 +1,6 @@
+@Mandible_HostAddress = http://localhost:5178
+
+GET {{Mandible_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
