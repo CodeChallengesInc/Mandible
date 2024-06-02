@@ -6,7 +6,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 WORKDIR /src
-COPY ["Mandible.csproj", "./"]
+COPY ["./Mandible/Mandible.csproj", "./"]
 RUN dotnet restore "Mandible.csproj"
 COPY . .
 WORKDIR "/src/"
