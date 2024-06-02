@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 WORKDIR /src
 COPY ["./Mandible/Mandible.csproj", "./"]
 RUN dotnet restore "Mandible.csproj"
-COPY . .
+COPY ./Mandible .
 WORKDIR "/src/"
 RUN dotnet build "Mandible.csproj" -c Release -o /app/build
 
