@@ -23,4 +23,4 @@ jobs:
         run: dotnet build --no-restore Mandible.sln
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+        run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura Mandible.sln
