@@ -7,6 +7,7 @@
     <UserSecretsId>4e4a3a51-fbb9-4b44-abaa-bde729969988</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <RootNamespace>CodeChallengeInc.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>CodeChallengeInc.$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
