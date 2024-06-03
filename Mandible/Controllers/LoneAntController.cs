@@ -12,11 +12,11 @@ namespace CodeChallengeInc.Mandible.Controllers
 		internal string Passcode { get; set; }
 		IFileService _fileService;
 		ILogger _logger;
-		public LoneAntController(IFileService fileService, ILogger logger)
+		public LoneAntController(IFileService fileService, ILogger<LoneAntController> logger)
 		{
 			_fileService = fileService;
 			_logger = logger;
-			Passcode = (Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) != null) ? Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) : EnvironmentConstants.DefaultPasscode;
+			Passcode = (Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable) != null) ? Environment.GetEnvironmentVariable(EnvironmentConstants.PasscodeVariable)! : EnvironmentConstants.DefaultPasscode!;
 		}
 		[HttpGet]
 		[ProducesResponseType(StatusCodes.Status200OK)]
