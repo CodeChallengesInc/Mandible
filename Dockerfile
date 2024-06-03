@@ -22,4 +22,4 @@ RUN mkdir LoneAnt
 RUN mkdir LoneAnt/Submissions
 RUN mkdir LoneAnt/Backups
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CodeChallengeInc.Mandible.dll"]
+ENTRYPOINT ["dotnet", "Mandible.dll"]
