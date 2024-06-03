@@ -6,14 +6,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-bookworm-slim AS build
 WORKDIR /src
-COPY ["SubmissionApi.csproj", "./"]
-RUN dotnet restore "SubmissionApi.csproj"
-COPY . .
+COPY ["./Mandible/Mandible.csproj", "./"]
+RUN dotnet restore "Mandible.csproj"
+COPY ./Mandible .
 WORKDIR "/src/"
-RUN dotnet build "SubmissionApi.csproj" -c Release -o /app/build
+RUN dotnet build "Mandible.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "SubmissionApi.csproj" -c Release -o /app/publish
+RUN dotnet publish "Mandible.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
