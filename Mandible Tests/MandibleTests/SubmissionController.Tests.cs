@@ -11,14 +11,14 @@ namespace CodeChallengeInc.Mandible.Tests
     public class LoneAntControllerTests
     {
         private Mock<IFileService> _fileServiceMock;
-        private Mock<ILogger> _loggerMock;
+        private Mock<ILogger<LoneAntController>> _loggerMock;
         private LoneAntController _controller;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _fileServiceMock = new Mock<IFileService>();
-            _loggerMock = new Mock<ILogger>();
+            _loggerMock = new Mock<ILogger<LoneAntController>>();
             _controller = new LoneAntController(_fileServiceMock.Object, _loggerMock.Object);
         }
 

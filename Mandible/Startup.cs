@@ -1,4 +1,5 @@
-﻿using CodeChallengeInc.Mandible.Interfaces;
+﻿using CodeChallengeInc.Mandible.Controllers;
+using CodeChallengeInc.Mandible.Interfaces;
 using CodeChallengeInc.Mandible.Services;
 using System.IO.Abstractions;
 
@@ -27,7 +28,10 @@ namespace CodeChallengeInc.Mandible
 			});
             services.AddSingleton<IFileSystem, FileSystem>();
             services.AddSingleton<IFileService, FileService>();
-			services.AddLogging();
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<LoneAntController>), typeof(Logger<LoneAntController>));
+            services.AddLogging();
+			services.AddControllers();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +46,12 @@ namespace CodeChallengeInc.Mandible
 				app.UseHsts();
 			}
 			app.UseCors("AllowAny");
-			using(IServiceScope scope = app.ApplicationServices.CreateScope())
+			app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+            using (IServiceScope scope = app.ApplicationServices.CreateScope())
 			{
 				scope.ServiceProvider.GetService<IFileService>()!.PurgeDefaultAnts();
 			}

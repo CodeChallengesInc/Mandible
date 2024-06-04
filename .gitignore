@@ -26,3 +26,5 @@
 /Mandible Tests/MandibleTests/obj
 /Mandible/bin/Debug/net8.0
 /Mandible/obj
+/Mandible/bin/*
+/Mandible Tests/MandibleTests/bin/*
